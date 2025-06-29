@@ -89,8 +89,6 @@
     .veiculo-container {
       display: none;
       text-align: center;
-      width: 100%;
-      max-width: 420px;
     }
     .bom-dia {
       color: #ffd700;
@@ -109,17 +107,14 @@
       border-radius: 20px;
       padding: 20px;
       margin-bottom: 30px;
-      width: 90%;
-      margin-left: auto;
-      margin-right: auto;
+      cursor: pointer;
     }
     .veiculo-card img {
       width: 100%;
+      max-width: 240px;
       height: auto;
-      max-height: 150px;
-      object-fit: contain;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      display: block;
+      margin: 0 auto 10px;
     }
     .modelo {
       font-size: 18px;
@@ -142,6 +137,38 @@
       bottom: 20px;
       right: 20px;
       width: 60px;
+    }
+    .opcoes-container {
+      display: none;
+      text-align: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .voltar {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 28px;
+      color: white;
+      font-weight: bold;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .botoes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 30px 0;
+    }
+    .botoes-grid button {
+      background: white;
+      color: black;
+      padding: 15px;
+      border: none;
+      border-radius: 14px;
+      font-weight: bold;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -167,7 +194,7 @@
     <h1>Olá, <span id="nomeUsuario"></span></h1>
     <div class="bom-dia" id="saudacao"></div>
     <div class="titulo-veiculo">SELECIONE O VEÍCULO:</div>
-    <div class="veiculo-card">
+    <div class="veiculo-card" onclick="abrirOpcoes()">
       <img src="moto.png" alt="Honda Twister 250" />
       <div class="modelo">HONDA TWISTER 250</div>
       <div class="placa">GAZ-7B66</div>
@@ -176,11 +203,24 @@
     <img src="dm celular.png" alt="Logo DM" class="logo" />
   </div>
 
+  <div class="opcoes-container" id="opcoesTela">
+    <button class="voltar" onclick="voltarParaVeiculo()">←</button>
+    <h2>Selecione uma opção:</h2>
+    <div class="botoes-grid">
+      <button>INICIAR VIAGEM</button>
+      <button>FINALIZAR VIAGEM</button>
+      <button>ABASTECER</button>
+      <button>MANUTENÇÃO</button>
+      <button>OCORRÊNCIAS</button>
+      <button>DOCUMENTO</button>
+    </div>
+    <img src="dm celular.png" alt="Logo DM" class="logo" />
+  </div>
+
   <script>
     function fazerLogin() {
       const user = document.getElementById('loginUser').value.trim().toLowerCase();
       const pass = document.getElementById('loginPass').value.trim();
-
       const usuarioCorreto = "guilherme";
       const senhaCorreta = "523446";
 
@@ -206,16 +246,22 @@
       const agora = new Date();
       const horas = agora.getHours();
       const saudacao = document.getElementById("saudacao");
-      if (horas >= 5 && horas < 12) {
-        saudacao.innerText = "Bom dia!";
-      } else if (horas >= 12 && horas < 18) {
-        saudacao.innerText = "Boa tarde!";
-      } else {
-        saudacao.innerText = "Boa noite!";
-      }
+      if (horas >= 5 && horas < 12) saudacao.innerText = "Bom dia!";
+      else if (horas >= 12 && horas < 18) saudacao.innerText = "Boa tarde!";
+      else saudacao.innerText = "Boa noite!";
 
       const nome = localStorage.getItem("nomeUsuario") || "Funcionário";
       document.getElementById("nomeUsuario").innerText = nome;
+    }
+
+    function abrirOpcoes() {
+      document.getElementById("veiculoTela").style.display = "none";
+      document.getElementById("opcoesTela").style.display = "flex";
+    }
+
+    function voltarParaVeiculo() {
+      document.getElementById("opcoesTela").style.display = "none";
+      document.getElementById("veiculoTela").style.display = "block";
     }
   </script>
 </body>
