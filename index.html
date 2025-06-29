@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Logística DM Celular - Login</title>
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background-color: #1976d2;
+      color: white;
       height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-wrapper, .container {
+      width: 90%;
+      max-width: 400px;
     }
     .login-wrapper {
       background: #1976d2;
       padding: 40px 20px;
       border-radius: 20px;
-      width: 90%;
-      max-width: 400px;
     }
     .login-header {
       text-align: center;
@@ -83,10 +86,59 @@
       color: red;
       display: none;
     }
+    .veiculo-container {
+      display: none;
+      text-align: center;
+    }
+    .bom-dia {
+      color: #ffd700;
+      margin-bottom: 30px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .titulo-veiculo {
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    .veiculo-card {
+      background-color: white;
+      color: black;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .veiculo-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .modelo {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .placa {
+      color: #1976d2;
+      font-size: 16px;
+    }
+    .sair {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .logo {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+    }
   </style>
 </head>
 <body>
-  <div class="login-wrapper">
+  <div class="login-wrapper" id="loginTela">
     <div class="login-header">
       <h1>LOGISTICA</h1>
       <img src="dm celular.png" alt="Logo DM Celular">
@@ -96,28 +148,66 @@
       <h2>LOGIN</h2>
       <label for="loginUser">Usuário</label>
       <input type="text" id="loginUser" placeholder="Digite seu usuário" />
-
       <label for="loginPass">Senha</label>
       <input type="password" id="loginPass" placeholder="Digite sua senha" />
-
       <button onclick="fazerLogin()">ENTRAR</button>
       <p id="loginErro">Usuário ou senha incorretos.</p>
     </div>
   </div>
 
+  <div class="veiculo-container" id="veiculoTela">
+    <h1>Olá, <span id="nomeUsuario"></span></h1>
+    <div class="bom-dia" id="saudacao"></div>
+    <div class="titulo-veiculo">SELECIONE O VEÍCULO:</div>
+    <div class="veiculo-card">
+      <img src="moto.png" alt="Honda Twister 250" />
+      <div class="modelo">HONDA TWISTER 250</div>
+      <div class="placa">GAZ-7B66</div>
+    </div>
+    <a href="#" class="sair" onclick="voltarLogin()">SAIR ⤺</a>
+    <img src="dm celular.png" alt="Logo DM" class="logo" />
+  </div>
+
   <script>
-    let usuarios = JSON.parse(localStorage.getItem('usuarios_moto') || '[{"usuario":"guimlherme","senha":"523446"}]');
-
     function fazerLogin() {
-      const user = document.getElementById('loginUser').value.trim();
+      const user = document.getElementById('loginUser').value.trim().toLowerCase();
       const pass = document.getElementById('loginPass').value.trim();
-      const valido = usuarios.find(u => u.usuario === user && u.senha === pass);
 
-      if (valido) {
-        window.location.href = "index.html";
+      const usuarioCorreto = "guilherme";
+      const senhaCorreta = "523446";
+
+      if (user === usuarioCorreto && pass === senhaCorreta) {
+        document.getElementById("loginTela").style.display = "none";
+        document.getElementById("veiculoTela").style.display = "block";
+        localStorage.setItem("nomeUsuario", "Guilherme");
+        mostrarSaudacao();
       } else {
         document.getElementById('loginErro').style.display = 'block';
       }
+    }
+
+    function voltarLogin() {
+      document.getElementById("veiculoTela").style.display = "none";
+      document.getElementById("loginTela").style.display = "block";
+      document.getElementById("loginUser").value = "";
+      document.getElementById("loginPass").value = "";
+      document.getElementById("loginErro").style.display = "none";
+    }
+
+    function mostrarSaudacao() {
+      const agora = new Date();
+      const horas = agora.getHours();
+      const saudacao = document.getElementById("saudacao");
+      if (horas >= 5 && horas < 12) {
+        saudacao.innerText = "Bom dia!";
+      } else if (horas >= 12 && horas < 18) {
+        saudacao.innerText = "Boa tarde!";
+      } else {
+        saudacao.innerText = "Boa noite!";
+      }
+
+      const nome = localStorage.getItem("nomeUsuario") || "Funcionário";
+      document.getElementById("nomeUsuario").innerText = nome;
     }
   </script>
 </body>
