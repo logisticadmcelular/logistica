@@ -1,120 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Controle de Moto - Empresa</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logística DM Celular - Login</title>
   <style>
     * {
       box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #f0f2f5;
-      color: #333;
     }
-    .container {
-      padding: 20px;
-      max-width: 600px;
-      margin: 0 auto;
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
-    .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
+    .login-wrapper {
+      background: #1976d2;
+      padding: 40px 20px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
     }
-    h1, h2 {
+    .login-header {
       text-align: center;
+      margin-bottom: 30px;
+      color: white;
+    }
+    .login-header h1 {
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .login-header img {
+      width: 120px;
+      margin: 10px 0;
+    }
+    .login-box {
+      background: white;
+      border-radius: 18px;
+      padding: 30px 20px;
+    }
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #000;
     }
     label {
-      display: block;
+      font-weight: bold;
       margin-top: 10px;
+      display: block;
+      color: #000;
     }
-    input, select, textarea, button {
+    input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      border: none;
+      background: #eee;
+      border-radius: 10px;
+      font-size: 16px;
     }
     button {
-      background-color: #2c7be5;
+      width: 100%;
+      padding: 14px;
+      background: #1976d2;
       color: white;
       border: none;
-      margin-top: 15px;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: bold;
       cursor: pointer;
     }
-    .registro {
-      background: #fff;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    #app { display: none; }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
+    #loginErro {
+      margin-top: 10px;
+      text-align: center;
+      color: red;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div id="login" class="card">
-      <h1>Login</h1>
+  <div class="login-wrapper">
+    <div class="login-header">
+      <h1>LOGISTICA</h1>
+      <img src="dm celular.png" alt="Logo DM Celular">
+      <p>ACESSO PARA FUNCIONARIOS</p>
+    </div>
+    <div class="login-box">
+      <h2>LOGIN</h2>
       <label for="loginUser">Usuário</label>
       <input type="text" id="loginUser" placeholder="Digite seu usuário" />
+
       <label for="loginPass">Senha</label>
       <input type="password" id="loginPass" placeholder="Digite sua senha" />
-      <button onclick="fazerLogin()">Entrar</button>
-      <p id="loginErro" style="color: red; display: none;">Usuário ou senha incorretos.</p>
-    </div>
 
-    <div id="app">
-      <div class="card nav-buttons">
-        <button onclick="mostrarTela('registros')">Registros</button>
-        <button onclick="mostrarTela('usuarios')">Usuários</button>
-      </div>
-
-      <div id="telaRegistros" class="card">
-        <h1>Controle da Moto</h1>
-        <form id="form">
-          <label for="tipo">Tipo de Registro</label>
-          <select id="tipo" required>
-            <option value="Quilometragem">Quilometragem</option>
-            <option value="Abastecimento">Abastecimento</option>
-            <option value="Manutenção">Manutenção</option>
-            <option value="Ocorrência">Ocorrência</option>
-          </select>
-
-          <label for="descricao">Descrição / Detalhes</label>
-          <textarea id="descricao" rows="3" required></textarea>
-
-          <button type="submit">Salvar Registro</button>
-        </form>
-      </div>
-
-      <div id="telaUsuarios" class="card" style="display: none;">
-        <h2>Gerenciar Usuários</h2>
-        <form id="formUsuario">
-          <label for="novoUsuario">Novo Usuário</label>
-          <input type="text" id="novoUsuario" placeholder="Usuário" required />
-          <label for="novaSenha">Senha</label>
-          <input type="password" id="novaSenha" placeholder="Senha" required />
-          <button type="submit">Cadastrar Usuário</button>
-        </form>
-        <div id="listaUsuarios"></div>
-      </div>
-
-      <div class="card">
-        <h2>Registros Salvos</h2>
-        <div id="registros"></div>
-      </div>
+      <button onclick="fazerLogin()">ENTRAR</button>
+      <p id="loginErro">Usuário ou senha incorretos.</p>
     </div>
   </div>
 
@@ -127,84 +114,11 @@
       const valido = usuarios.find(u => u.usuario === user && u.senha === pass);
 
       if (valido) {
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        mostrarTela('registros');
+        window.location.href = "index.html";
       } else {
         document.getElementById('loginErro').style.display = 'block';
       }
     }
-
-    function mostrarTela(tela) {
-      document.getElementById('telaRegistros').style.display = tela === 'registros' ? 'block' : 'none';
-      document.getElementById('telaUsuarios').style.display = tela === 'usuarios' ? 'block' : 'none';
-      if (tela === 'usuarios') carregarUsuarios();
-    }
-
-    const form = document.getElementById('form');
-    const registrosDiv = document.getElementById('registros');
-
-    function carregarRegistros() {
-      const dados = JSON.parse(localStorage.getItem('registros_moto') || '[]');
-      registrosDiv.innerHTML = '';
-      dados.forEach((item) => {
-        const div = document.createElement('div');
-        div.className = 'registro';
-        div.innerHTML = `
-          <strong>${item.tipo}</strong><br>
-          ${item.descricao}<br>
-          <small>${item.data}</small>
-        `;
-        registrosDiv.appendChild(div);
-      });
-    }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const tipo = document.getElementById('tipo').value;
-      const descricao = document.getElementById('descricao').value;
-      const data = new Date().toLocaleString('pt-BR');
-
-      const novoRegistro = { tipo, descricao, data };
-      const registros = JSON.parse(localStorage.getItem('registros_moto') || '[]');
-      registros.unshift(novoRegistro);
-      localStorage.setItem('registros_moto', JSON.stringify(registros));
-      form.reset();
-      carregarRegistros();
-    });
-
-    const formUsuario = document.getElementById('formUsuario');
-    const listaUsuariosDiv = document.getElementById('listaUsuarios');
-
-    function carregarUsuarios() {
-      listaUsuariosDiv.innerHTML = '';
-      usuarios.forEach((u, i) => {
-        const div = document.createElement('div');
-        div.className = 'registro';
-        div.innerHTML = `${u.usuario} <button onclick="removerUsuario(${i})">Remover</button>`;
-        listaUsuariosDiv.appendChild(div);
-      });
-    }
-
-    function removerUsuario(index) {
-      usuarios.splice(index, 1);
-      localStorage.setItem('usuarios_moto', JSON.stringify(usuarios));
-      carregarUsuarios();
-    }
-
-    formUsuario.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const novoUsuario = document.getElementById('novoUsuario').value.trim();
-      const novaSenha = document.getElementById('novaSenha').value.trim();
-      if (novoUsuario && novaSenha) {
-        usuarios.push({ usuario: novoUsuario, senha: novaSenha });
-        localStorage.setItem('usuarios_moto', JSON.stringify(usuarios));
-        formUsuario.reset();
-        carregarUsuarios();
-      }
-    });
-
-    carregarRegistros();
   </script>
 </body>
 </html>
